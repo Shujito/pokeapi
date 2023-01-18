@@ -49,6 +49,7 @@ public class PokeApiController {
 	@GetMapping("/{pokemon}/location-area-encounters")
 	public ResponseEntity<JsonNode> locationAreaEncounters(@PathVariable("pokemon") String pokemon) {
 		Optional<JsonNode> response = Optional.ofNullable(restTemplate.getForObject(pokemon, JsonNode.class));
-		return ResponseEntity.ok(response.orElseThrow().get("location_area_encounters"));
+		var locationAreaEncounters = response.orElseThrow().get("location_area_encounters").asText();
+		return ResponseEntity.ok(restTemplate.getForObject(locationAreaEncounters, JsonNode.class));
 	}
 }
